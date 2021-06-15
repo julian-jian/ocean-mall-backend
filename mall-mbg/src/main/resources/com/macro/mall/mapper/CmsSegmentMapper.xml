@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.mapper.CmsSegmentMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.CmsSegment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="consumption_min" jdbcType="DECIMAL" property="consumptionMin" />
+    <result column="consumption_max" jdbcType="DECIMAL" property="consumptionMax" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="discount" jdbcType="INTEGER" property="discount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, consumption_min, consumption_max,
+    discount,icon,
+      create_time,update_time, status
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from cms_segment where id = #{id}
+  </select>
+
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <insert id="insert" parameterType="com.macro.mall.model.CmsSegment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cms_segment (name, consumption_min, consumption_max,
+    discount,icon,
+      create_time,update_time, status
+      )
+    values (#{name,jdbcType=VARCHAR}, #{consumptionMin,jdbcType=VARCHAR},#{consumptionMax,jdbcType=VARCHAR},
+     #{discount,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <select id="selectByExample" parameterType="com.macro.mall.model.CmsSegmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cms_segment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.CmsSegment">
+    update cms_segment
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="consumptionMin != null">
+        consumption_min = #{consumptionMin,jdbcType=DECIMAL},
+      </if>
+      <if test="consumptionMax != null">
+        consumption_max = #{consumptionMax,jdbcType=DECIMAL},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cms_segment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <select id="getByconSumption" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select * from cms_segment where consumption_min &lt;=#{consumption} and consumption_max &gt;=#{consumption}
+  </select>
+
+  <select id="getMaxSegment" resultMap="BaseResultMap">
+    select * from cms_segment ORDER BY consumption_min desc LIMIT 0,1
+  </select>
+</mapper>

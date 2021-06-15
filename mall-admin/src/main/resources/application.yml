@@ -1,0 +1,63 @@
+spring:
+  profiles:
+#    active: prod
+    active: test #默认为测试环境
+  servlet:
+    multipart:
+      enabled: true #开启文件上传
+      max-file-size: 100MB #限制文件上传大小为100M
+      max-request-size: 100MB
+server:
+  tomcat:
+    max-swallow-size: -1
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:com/**/mapper/*.xml
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: mall-admin-secret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  tokenHead: 'Bearer ' #JWT负载中拿到开头
+
+redis:
+  database: mall
+  key:
+    admin: 'ums:admin'
+    resourceList: 'ums:resourceList'
+    member: 'ums:member'
+  expire:
+    common: 86400 # 24小时
+
+aliyun:
+  oss:
+    endpoint: oss-cn-shenzhen.aliyuncs.com # oss对外服务的访问域名
+    accessKeyId: test # 访问身份验证中用到用户标识
+    accessKeySecret: test # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
+    bucketName: macro-oss # oss的存储空间
+    policy:
+      expire: 300 # 签名有效期(S)
+    maxSize: 10 # 上传文件大小(M)
+    callback: http://39.98.190.128:8080/aliyun/oss/callback # 文件上传成功后的回调地址
+    dir:
+      prefix: mall/images/ # 上传文件夹路径前缀
+
+logging:
+  level:
+    root: info #日志配置DEBUG,INFO,WARN,ERROR
+    com.macro.mall: debug
+#  file: demo_log.log #配置日志生成路径
+#  path: /var/logs #配置日志文件名称
+
+wx:
+  sss: 2
+
+#快递配置
+express:
+  secretId: AKID4XKgp7NEddd6uPvjUiiFOfaV9W19gcPja3zM
+  secretKey: clK927iWj73t6Qf9Ga5sd5104rMpcr8zYTk0EW7K
+

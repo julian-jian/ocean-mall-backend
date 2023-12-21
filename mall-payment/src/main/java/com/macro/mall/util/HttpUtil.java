@@ -27,8 +27,9 @@ public class HttpUtil {
 //	private final static String PFX_PATH = "/usr/local/ca-certificates/apiclient_cert.p12"; //线上测试环境证书路径
 //	private final static String PFX_PWD = "1601714492"; //线上测试环境客户端证书密码
 
-	private final static String PFX_PATH = "/Users/hongjian/Desktop/HaPond/code/o_project/ocean-mall/cert/apiclient_cert.p12"; //线上部署环境证书路径
-	private final static String PFX_PWD = "1602642868"; //线上部署环境客户端证书密码
+	// private final static String PFX_PATH = "/Users/hongjian/Desktop/HaPond/code/o_project/ocean-mall/cert/apiclient_cert.p12"; //线上部署环境证书路径
+	private static final String PFX_PATH = "/home/apiclient_cert.p12";//线上部署环境证书路径
+	private final static String PFX_PWD = "1660798095"; //线上部署环境客户端证书密码
 
 	public static String sslSendPost(String url, String param) throws Exception
 	{
